@@ -6,20 +6,25 @@
 mostrando somente categorias que tenham vendido uma quantidade de items acima de 1000.			
 */
 
-SELECT
-prod.product_category_name as categoria_produto,
-customer_state,
-count(1) as quantidade_itens_vendidos
-FROM olist_products_dataset as prod
-LEFT JOIN olist_order_items_dataset as it
-on prod.product_id = it.product_id
-LEFT JOIN olist_orders_dataset as ord
-on it.order_id = ord.order_id 
-LEFT JOIN olist_customers_dataset as cust
-on ord.customer_id = cust.customer_id
-group by prod.product_category_name, cust.customer_state
+SELECT prod.product_category_name  AS categoria_produto
+     , customer_state
+     , COUNT(1)                    AS quantidade_itens_vendidos
+  FROM olist_products_dataset      AS prod
+  LEFT
+  JOIN olist_order_items_dataset   AS it
+    on prod.product_id = it.product_id
+  LEFT
+  JOIN olist_orders_dataset        AS ord
+    ON it.order_id = ord.order_id 
+  LEFT
+  JOIN olist_customers_dataset     AS cust
+    ON ord.customer_id = cust.customer_id
+ GROUP
+    BY prod.product_category_name, cust.customer_state
 HAVING quantidade_itens_vendidos > 1000
-order by 1, 3 DESC;
+ ORDER
+    BY 1
+     , 3 DESC;
 	
 
 /*
